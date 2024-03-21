@@ -19,15 +19,18 @@ object App {
     spark.read
       .option("header",true)
       .option("inferSchema",true)
-      .csv("C:/Users/kamil/Downloads/sales_data_sample.csv/sales_data_sample.csv")
+      .csv("/opt/sales_data_sample.csv")
       .createOrReplaceTempView("sales")
 
-
     val salesAvgDf = spark.sql("select YEAR_ID, PRODUCTLINE, round(avg(sales),2) AVERAGE_SALES_AMT from sales where status='Shipped' group by YEAR_ID, PRODUCTLINE order by YEAR_ID, PRODUCTLINE")
+
     salesAvgDf.write
       .format("csv")
       .option("header", "true")
       .mode("overwrite")
-      .save("file:///C:/Users/kamil/Downloads/output.csv")
+      .save("/opt/output.csv")
+
+    //Stop the SparkSession
+    spark.stop()
   }
 }
