@@ -1,10 +1,9 @@
 package org.opensky
 
 import org.apache.logging.log4j.{LogManager, Logger}
-import org.apache.spark.sql.SparkSession
 
 /**
- * @author ${user.name}
+ * @author Kamil Mahabir
  */
 object App {
 
@@ -19,16 +18,17 @@ object App {
     spark.read
       .option("header",true)
       .option("inferSchema",true)
-      .csv("/opt/sales_data_sample.csv")
+      .csv("/data/input/sales_data_sample.csv")
       .createOrReplaceTempView("sales")
 
     val salesAvgDf = spark.sql("select YEAR_ID, PRODUCTLINE, round(avg(sales),2) AVERAGE_SALES_AMT from sales where status='Shipped' group by YEAR_ID, PRODUCTLINE order by YEAR_ID, PRODUCTLINE")
 
-    salesAvgDf.write
+    salesAvgDf.coalesce(1)
+      .write
       .format("csv")
       .option("header", "true")
       .mode("overwrite")
-      .save("/opt/output.csv")
+      .save("/data/output")
 
     //Stop the SparkSession
     spark.stop()
