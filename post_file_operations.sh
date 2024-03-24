@@ -6,3 +6,4 @@ rm /data/output/.part*
 rm /data/output/part*
 rm /data/output/._SUCCESS.crc
 rm /data/output/_SUCCESS
+echo Completed post file operations successfully.
