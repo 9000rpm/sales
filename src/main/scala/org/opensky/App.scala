@@ -19,9 +19,10 @@ object App {
 
     logger.info("reading sales csv file..")
     spark.read
+      .option("compression", "gzip")
       .option("header","true")
       .option("inferSchema","true")
-      .csv("/data/input/sales_data_sample.csv")
+      .csv("/data/input/sales_data_sample.csv.gz")
       .createOrReplaceTempView("sales")
 
     logger.info("executing spark sql.. ")

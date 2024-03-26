@@ -12,11 +12,7 @@ docker-compose up -d
 
 This will copy the required file files to the container:    
 docker cp target/sales-1.0-SNAPSHOT.jar spark_master:/opt/bitnami/spark/.
-docker cp pre_file_operations.sh spark_master:/opt/.
 docker cp post_file_operations.sh spark_master:/opt/.
-
-This will unzip the provided file:
-docker exec -it spark_master /bin/sh -c /opt/pre_file_operations.sh
 
 This will submit the job to Apache Spark:  
 docker exec -it spark_master spark-submit --master spark://spark:7077 --class org.opensky.App sales-1.0-SNAPSHOT.jar
