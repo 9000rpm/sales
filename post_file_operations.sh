@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # csv to output.csv
 cat /data/output/part*.csv > /data/output/output.csv
 
